@@ -1,5 +1,78 @@
 # SQL-Worksheet
 
+SQL SUM, AVG, COUNT 1.1 SQL COUNT Practice Exercise
+```
+
+```
+
+------------------------------------------
+
+SQL Group By 1.1 Easy SQL GROUP BY Practice Exercise
+```
+SELECT ticker, min(open) FROM stock_prices
+group by ticker
+order by min(open)desc;
+```
+
+SQL Group By 1.2 SQL GROUP BY Practice Exercise: Candidate Skills
+```
+SELECT skill, count(*) FROM candidates
+group by skill
+order by count(*)desc;
+```
+
+--------------------------------------------
+
+SQL Having 1.1 SQL HAVING MIN Practice Exercise
+```
+SELECT ticker, min(open) FROM stock_prices
+group by ticker
+having min(open)>100;
+```
+
+SQL Having 1.2 SSQL HAVING Practice Exercise
+```
+SELECT candidate_id FROM candidates
+group by candidate_id
+having count(candidate_id)>2;
+```
+
+---------------------------------------------
+
+SQL Distinct 1.1 SQL COUNT DISTINCT Practice Exercise
+```
+SELECT category, count(distinct product) FROM product_spend
+group by category;
+```
+
+---------------------------------------------
+
+SQL Arithmetic 1.1 Pharmacy Analytics (Part 1)
+```
+SELECT drug, total_sales - cogs as total_profit FROM pharmacy_sales
+order by total_profit desc
+limit 3;
+```
+
+----------------------------------------------
+
+SQL Math Functions 1.1 SQL CEIL Practice Exercise
+```
+SELECT drug, ceil(total_sales / units_sold) as unit_cost FROM pharmacy_sales
+where manufacturer = 'Merck'
+order by unit_cost asc;
+```
+
+----------------------------------------------
+
+SQL Null 1.1 Unfinished Parts
+```
+SELECT part, assembly_step FROM parts_assembly
+where finish_date is null;
+```
+
+----------------------------------------------
+
 SQL Case Statement 1.1 Likes
 ```
 SELECT actor, character, platform, avg_likes, 
