@@ -150,3 +150,23 @@ join texts
 where texts.signup_action = 'Confirmed'
 and extract(day from texts.action_date)-extract(day from emails.signup_date) = 1;
 ```
+
+SQL Ranking 1.1 Top 5 Artists
+```
+with top_10_cte as (
+SELECT artists.artist_name,
+dense_rank() OVER(order by count(global_song_rank.song_id)DESC) as ranking 
+from artists
+inner join  songs
+  on artists.artist_id = songs.artist_id
+inner join global_song_rank
+  on songs.song_id = global_song_rank.song_id
+
+where global_song_rank.rank <= 10
+group by artists.artist_name
+)
+
+select artist_name, ranking
+from top_10_cte
+where ranking <= 5;
+```
