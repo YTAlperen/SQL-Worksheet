@@ -187,3 +187,21 @@ where last_date = 1
 group by transaction_date, user_id
 order by transaction_date asc;
 ```
+
+SQL Ranking 1.3 Odd and Even Measurements
+```
+with rank_cte as(
+SELECT *,
+date_trunc('day', measurement_time) as gun,
+row_number() OVER(
+  partition by cast(measurement_time as date)
+  order by measurement_time ASC) as odd_even_rank
+FROM measurements
+)
+select gun,
+sum(measurement_value) FILTER (where odd_even_rank % 2 != 0) as odd_sum,
+sum(measurement_value) FILTER (where odd_even_rank % 2 = 0) as even_sum
+from rank_cte
+group by gun
+order by gun ASC;
+```
