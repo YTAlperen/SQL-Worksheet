@@ -170,3 +170,20 @@ select artist_name, ranking
 from top_10_cte
 where ranking <= 5;
 ```
+
+SQL Ranking 1.2 Histogram of Users and Purchases
+```
+with last_day_purchases as(
+SELECT transaction_date, user_id, product_id, 
+rank() over(
+partition by user_id
+order by transaction_date DESC) as last_date
+FROM user_transactions
+)
+
+select transaction_date, user_id, count(product_id) as counts
+from last_day_purchases
+where last_date = 1
+group by transaction_date, user_id
+order by transaction_date asc;
+```
