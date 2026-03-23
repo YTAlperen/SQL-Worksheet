@@ -151,6 +151,40 @@ where texts.signup_action = 'Confirmed'
 and extract(day from texts.action_date)-extract(day from emails.signup_date) = 1;
 ```
 
+CTE 1.1 Top Selling Artists
+```
+with per_cte as(
+SELECT artist_name, concert_revenue, genre, number_of_members, concert_revenue / number_of_members as per_rev,
+rank() over(
+  partition by genre
+  order by concert_revenue / number_of_members DESC) as ranked_revenue
+FROM concerts
+)
+
+select artist_name, concert_revenue, genre, number_of_members, concert_revenue / number_of_members as per_rev
+from per_cte
+where ranked_revenue = 1
+order by per_rev DESC;
+```
+
+CTE 1.2 Supercloud Customer
+```
+WITH scust AS (
+  SELECT 
+    c.customer_id, 
+    COUNT(DISTINCT products.product_category) AS product_count
+  FROM customer_contracts AS c
+  INNER JOIN products 
+    ON c.product_id = products.product_id
+  GROUP BY c.customer_id
+)
+
+select customer_id from scust
+where product_count = (
+  SELECT COUNT(DISTINCT product_category) FROM products
+);
+```
+
 SQL Ranking 1.1 Top 5 Artists
 ```
 with top_10_cte as (
