@@ -239,3 +239,19 @@ from rank_cte
 group by gun
 order by gun ASC;
 ```
+
+SQL LEAD & LAG 1.1 Stock Performance
+```
+SELECT
+  date,
+  close,
+  LEAD(close) OVER (ORDER BY date) AS next_month_close,
+  LEAD(close, 3) OVER (ORDER BY date) AS three_next_month_close,
+  LEAD(close) OVER (ORDER BY date) - close as difference,
+  LAG(close, 3) OVER (ORDER BY date) AS prev_3month_close,
+  close - LAG(close, 3) OVER (ORDER BY date) AS difference
+FROM stock_prices
+WHERE EXTRACT(YEAR FROM date) = 2023
+  AND ticker = 'GOOG';
+
+```
